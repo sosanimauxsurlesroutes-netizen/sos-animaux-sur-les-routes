@@ -1,6 +1,6 @@
 {
   "name": "sos-animaux-sur-les-routes-android",
-  "version": "7.15.2",
+  "version": "7.15.3",
   "private": true,
   "description": "Application Android SOS Animaux sur les Routes via Capacitor",
   "scripts": {
