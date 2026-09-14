@@ -15,6 +15,8 @@ if(!html.includes(marker)){
   console.error('Marqueur Supabase introuvable dans www/index.html');
   process.exit(1);
 }
-html=html.replaceAll(marker,key);
+// Important : remplacer UNE SEULE occurrence.
+// L'autre occurrence reste la sentinelle qui détecte un build sans injection.
+html=html.replace(marker,key);
 fs.writeFileSync(file,html);
-console.log('Clé Publishable Supabase injectée dans la version Android.');
+console.log('Clé Publishable Supabase injectée sans modifier la sentinelle.');
