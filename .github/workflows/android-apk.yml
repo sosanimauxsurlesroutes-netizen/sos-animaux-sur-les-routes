@@ -6,42 +6,37 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Recuperer le projet
         uses: actions/checkout@v4
-
       - name: Installer Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-
       - name: Installer Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "21"
-
       - name: Installer les dependances
         run: npm install
-
+      - name: Injecter la configuration Supabase publique
+        env:
+          SOS_SUPABASE_PUBLISHABLE_KEY: ${{ vars.SOS_SUPABASE_PUBLISHABLE_KEY }}
+        run: node scripts/inject-supabase-key.mjs
       - name: Creer le projet Android
         run: npx cap add android
-
       - name: Synchroniser Capacitor
         run: npx cap sync android
-
       - name: Configurer GPS camera et connexion
         run: node scripts/patch-android.mjs
-
       - name: Generer APK
         run: |
           cd android
           chmod +x gradlew
           ./gradlew assembleDebug
-
       - name: Sauvegarder APK
         uses: actions/upload-artifact@v4
         with:
-          name: SOS-Animaux-Android
+          name: SOS-Animaux-Android-V7.15.3
           path: android/app/build/outputs/apk/debug/app-debug.apk
