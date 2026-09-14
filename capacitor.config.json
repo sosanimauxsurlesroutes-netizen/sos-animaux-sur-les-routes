@@ -1,0 +1,10 @@
+{
+  "appId": "com.sosanimauxsurlesroutes.app",
+  "appName": "SOS Animaux sur les Routes",
+  "webDir": "www",
+  "loggingBehavior": "debug",
+  "android": {
+    "allowMixedContent": false,
+    "backgroundColor": "#ffffff"
+  }
+}
