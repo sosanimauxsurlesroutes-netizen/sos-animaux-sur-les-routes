@@ -46,6 +46,11 @@ const hideBlock = `
   document.addEventListener('DOMContentLoaded', hideCloudUI);
   setTimeout(hideCloudUI, 500);
   setTimeout(hideCloudUI, 1500);
+  new MutationObserver(hideCloudUI).observe(document.body, {
+  childList: true,
+  subtree: true,
+  characterData: true
+});
 })();
 </script>`;
 
