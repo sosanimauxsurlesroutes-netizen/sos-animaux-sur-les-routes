@@ -5,9 +5,7 @@ const key = String(
 ).trim();
 
 if (!key) {
-  console.log(
-    'Aucune clé Supabase fournie : le mode configuration manuelle restera disponible.'
-  );
+  console.log('Aucune clé Supabase fournie.');
   process.exit(0);
 }
 
@@ -25,29 +23,12 @@ const files = [
 
 const marker = '__SOS_SUPABASE_PUBLISHABLE_KEY__';
 
-let modified = 0;
+const cleanupMarker = 'data-sos-cloud-ui-cleanup';
 
-for (const file of files) {
-  if (!fs.existsSync(file)) {
-    console.log(`${file} introuvable : ignoré.`);
-    continue;
-  }
-
-  let html = fs.readFileSync(file, 'utf8');
-
-  if (!html.includes(marker)) {
-    console.log(`Marqueur Supabase absent dans ${file} : ignoré.`);
-    continue;
-  }
-
-  // Remplace une seule occurrence afin de conserver
-  // la sentinelle utilisée par l'application.
-  html = html.replace(marker, key);
-
-  fs.writeFileSync(file, html);
-  modified++;
-
-  console.log(`Clé Supabase injectée dans ${file}.`);
-}
-
-console.log(`${modified} fichier(s) préparé(s) pour Supabase.`);
+const cleanupScript = `
+<script data-sos-cloud-ui-cleanup>
+(() => {
+  const clean = (value) =>
+    String(value || '')
+      .replace(/\\s+/g, ' ')
+     
